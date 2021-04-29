@@ -1,7 +1,7 @@
 let db;
 let budgetVersion;
 
-// Create a new db request for a "budget" database.
+// Creates the "budget" database in indexedDB
 const request = indexedDB.open('BudgetDB', budgetVersion || 22);
 
 // This checks the versions to see if the IndexedDB needs an update. onupgradeneeded has a built in event listener (e).
@@ -30,18 +30,18 @@ request.onerror = function (e) {
 function checkDatabase() {
   console.log('check db invoked');
 
-  // Open a transaction on your BudgetStore db
+  // Create a transaction variable that opens a transaction on your BudgetStore db
   let transaction = db.transaction(['BudgetStore'], 'readwrite');
 
-  // access your BudgetStore object
+  // Create a store variable that accesses your BudgetStore object
   const store = transaction.objectStore('BudgetStore');
 
   // Get all records from store and set to a variable
   const getAll = store.getAll();
 
-  // If the request was successful
+  // .onsuccess is a indexedDB method that checks if the request was successful
   getAll.onsuccess = function () {
-    // If there are items in the store, we need to bulk add them when we are back online
+    // Once back online, add our store to the main (in this case Mongo) DB.
     if (getAll.result.length > 0) {
       fetch('/api/transaction/bulk', {
         method: 'POST',
@@ -53,15 +53,16 @@ function checkDatabase() {
       })
         .then((response) => response.json())
         .then((res) => {
-          // If our returned response is not empty
+          // Checks that our returned response is not empty
           if (res.length !== 0) {
-            // Open another transaction to BudgetStore with the ability to read and write
+            // We then open a new transaction to BudgetStore with the ability to read and write
+            // so we can clear the entries we just posted to the database.
             transaction = db.transaction(['BudgetStore'], 'readwrite');
 
             // Assign the current store to a variable
             const currentStore = transaction.objectStore('BudgetStore');
 
-            // Clear existing entries because our bulk add was successful
+            // Clear existing entries because our bulk add to the DB was successful
             currentStore.clear();
             console.log('Clearing store 🧹');
           }
@@ -81,7 +82,7 @@ request.onsuccess = function (e) {
   }
 };
 
-// SaveRecord used when offline called in sendTransaction function.
+// SaveRecord used when offline. This is called in the sendTransaction function.
 const saveRecord = (record) => {
   console.log('Save record invoked');
   // Create a transaction on the BudgetStore db with readwrite access
