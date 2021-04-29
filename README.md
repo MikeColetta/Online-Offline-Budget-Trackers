@@ -20,8 +20,6 @@ I created offline functionality for the already existing online budget tracker. 
 ## Usage
 
 ![Screenshot1](./public/images/Screenshot1.JPG)
-![Screenshot2](./public/images/Screenshot2.JPG)
-![Screenshot3](./public/images/Screenshot3.JPG)
 
 ## License
     
