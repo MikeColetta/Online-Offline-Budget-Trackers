@@ -26,7 +26,7 @@ request.onerror = function (e) {
   console.log(`Woops! ${e.target.errorCode}`);
 };
 
-// This is called 
+// This is called when the user is back online (see event listener on line 99)
 function checkDatabase() {
   console.log('check db invoked');
 
