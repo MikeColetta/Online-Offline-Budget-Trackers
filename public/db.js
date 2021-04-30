@@ -2,7 +2,7 @@ let db;
 let budgetVersion;
 
 // Creates the "budget" database in indexedDB
-const request = indexedDB.open('BudgetDB', budgetVersion || 22);
+const request = indexedDB.open('BudgetDB', budgetVersion || 1);
 
 // This checks the versions to see if the IndexedDB needs an update. onupgradeneeded has a built in event listener (e).
 request.onupgradeneeded = function (e) {
