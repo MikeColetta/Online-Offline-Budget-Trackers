@@ -4,7 +4,7 @@
 
 ## Description
     
-I created offline functionality for the already existing online budget tracker. I used IndexedDB to create a place to store user input data offline, and then when the user is back online, the IndexedDB data is added. 
+I implemented offline functionality for the already online budget tracker. I used IndexedDB to store user input data offline, so when the user is back online, the IndexedDB data is added to the MongoDB. 
     
 ## Table of Contents
 1. [Installation](#installation)
